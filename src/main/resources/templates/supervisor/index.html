@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="fragments:: head">
+</head>
+
+<header th:replace="fragments:: header">
+</header>
+<body>
+<h3 class="text-success">Welcome <span th:text="${name}"></span>.</h3>
+
+<h4><span th:text="${today}"></span></h4>
+<p><a href="supervisor/add">Add Assignments</a></p>
+<hr>
+<p>Driver Assignments</p>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Source</th>
+        <th scope="col">Destination</th>
+        <th scope="col">Shipment</th>
+        <th scope="col">Delivery Status</th>
+        <th scope="col">Track Location</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Michael Njoroge</td>
+        <td>Kansas City</td>
+        <td>Wichita</td>
+        <td>Pharmaceuticals</td>
+        <td>Enroute</td>
+        <td><a href="#">Locate Driver</a></td>
+    </tr>
+    <tr>
+        <td>Musa Otieno</td>
+        <td>Denver</td>
+        <td>Oklahoma</td>
+        <td>Clothes</td>
+        <td>Delivered</td>
+        <td><a href="#">Locate Driver</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

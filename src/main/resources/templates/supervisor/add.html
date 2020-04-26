@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="fragments:: head">
+</head>
+
+<header th:replace="fragments:: header">
+</header>
+<body>
+<h3 class="text-success">Welcome <span th:text="${name}"></span>.</h3>
+
+<h4><span th:text="${today}"></span></h4>
+
+
+
+
+<div class="container">
+    <form class="form-horizontal" method="get" action="/supervisor" id="addform">
+
+        <div class="form-group row justify-content-center" >
+            <label for="driver" class="control-label col-sm-2">Select a driver:</label>
+            <div class="col-xs-10">
+                <select class="form-control w-auto" id="driver">
+                    <option>Robert Cheruiyot</option>
+                    <option>Michael Njoroge</option>
+                    <option>Musa Otieno</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-group row justify-content-center " >
+            <label for="source" class="control-label col-sm-2">Source:</label>
+            <div class="col-xs-10">
+                <input type="text" id="source" name="source" placeholder="Source">
+            </div>
+        </div>
+
+
+        <div class="form-group row justify-content-center " >
+            <label for="destination" class="control-label col-sm-2">Destination:</label>
+            <div class="col-xs-10">
+                <input type="text" id="destination" name="destination" placeholder="Destination">
+            </div>
+        </div>
+        <div class="form-group row justify-content-center " >
+            <label for="description" class="control-label col-sm-2">Description:</label>
+            <div class="col-xs-10">
+                <input type="text" id="description" name="last name" placeholder="Description">
+            </div>
+        </div>
+
+        <div class=" row justify-content-center"><button type="submit" class="btn btn-primary">Add Assignment</button></div>
+
+    </form>
+</div>
+
+
+
+</body>
+</html>
