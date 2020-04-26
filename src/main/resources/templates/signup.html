@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<header th:replace="fragments :: header"></header>
+<body>
+<div class="container">
+    <h1 th:text="${name}"></h1>
+</div>
+
+
+
+<div class="container">
+    <form class="form-horizontal" method="post" action="/">
+
+        <div class="form-group row justify-content-center" >
+            <label for="usrname" class="control-label col-sm-2">Username:</label>
+            <div class="col-xs-10">
+                <input type="text" id="usrname" name="first name" placeholder="Username">
+            </div>
+        </div>
+
+        <div class="form-group row justify-content-center" >
+            <label for="fname" class="control-label col-sm-2">First Name:</label>
+            <div class="col-xs-10">
+                <input type="text" id="fname" name="first name" placeholder="First Name">
+            </div>
+        </div>
+
+
+        <div class="form-group row justify-content-center" >
+            <label for="lname" class="control-label col-sm-2">Last Name:</label>
+            <div class="col-xs-10">
+                <input type="text" id="lname" name="last name" placeholder="Last Name">
+            </div>
+        </div>
+
+
+        <div class="form-group row justify-content-center" >
+            <label for="pwd" class="control-label col-sm-2">Password:</label>
+            <div class="col-xs-10">
+                <input type="password" id="pwd" name="password" placeholder="Password">
+            </div>
+        </div>
+
+        <div class="form-group row justify-content-center" >
+            <label for="vfypwd" class="control-label col-sm-2"> Verify Password:</label>
+            <div class="col-xs-10">
+                <input type="password" id="vfypwd" name="verifypassword" placeholder="Verify Password">
+            </div>
+        </div>
+
+
+        <div class="form-group row justify-content-center" >
+            <label for="token" class="control-label col-sm-2"> Token:</label>
+            <div class="col-xs-10">
+                <input type="password" id="token" name="token" placeholder="Token">
+            </div>
+        </div>
+        <div class="form-group row justify-content-center" >
+            <label for="supervisor" class="control-label col-sm-2"> Supervisor:</label>
+            <div class="col-xs-10">
+                <input type="checkbox"  class="form-check-input form-check-label control-label" id="supervisor" name="token">
+            </div>
+        </div>
+
+
+        <div class=" row justify-content-center"><button type="submit" class="btn btn-primary">Signup</button></div>
+
+    </form>
+</div>
+</body>
+</html>
