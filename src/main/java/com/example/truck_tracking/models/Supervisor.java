@@ -6,8 +6,8 @@ import javax.persistence.Entity;
  * Created by Kipngetich
  */
 @Entity
-public class Driver extends AbstractPersonnel{
-    public Driver(String firstName, String lastName, String email, String password) {
+public class Supervisor extends AbstractPersonnel{
+    public Supervisor(String firstName, String lastName, String email, String password) {
         super(firstName, lastName, email, password);
     }
 }
