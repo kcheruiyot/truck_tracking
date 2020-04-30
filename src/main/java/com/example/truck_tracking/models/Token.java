@@ -23,10 +23,13 @@ public class Token {
     @Size(min = 3,max = 10,message = "Token should be 3-10 characters")
     private String token;
 
-    public Token(@Size(min = 3, max = 30, message = "First name should be 3-30 characters") String firstName, @Size(min = 3, max = 30, message = "Last name should be 3-30 characters") String lastName, @Size(min = 3, max = 10, message = "Token should be 3-10 characters") String token) {
+    private boolean isSupervisor;
+
+    public Token(@Size(min = 3, max = 30, message = "First name should be 3-30 characters") String firstName, @Size(min = 3, max = 30, message = "Last name should be 3-30 characters") String lastName, @Size(min = 3, max = 10, message = "Token should be 3-10 characters") String token,boolean isSupervisor) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.token = token;
+        this.isSupervisor = isSupervisor;
     }
 
     public int getId() {
@@ -59,5 +62,13 @@ public class Token {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public boolean isSupervisor() {
+        return isSupervisor;
+    }
+
+    public void setSupervisor(boolean supervisor) {
+        isSupervisor = supervisor;
     }
 }
