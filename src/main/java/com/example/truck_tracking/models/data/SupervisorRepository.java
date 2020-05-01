@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface SupervisorRepository extends CrudRepository<Supervisor,Integer> {
+    Supervisor findByUsername(String username);
 }

@@ -31,6 +31,12 @@
             <p class="error" th:errors="${loginFormDTO.password}"></p>
         </div>
         <div class="form-group row justify-content-center">
+            <label class="control-label col-sm-2 form-check-label">Supervisor:</label>
+            <div class="col-xs-10">
+                <input  type="checkbox" class="form-check-input" th:field="${loginFormDTO.supervisor}" />
+            </div>
+        </div>
+        <div class="form-group row justify-content-center">
             <label class="control-label col-sm-2"></label>
             <div class="col-xs-10">
             <input type="submit" class="btn btn-primary" value="Log In" />
@@ -42,6 +48,8 @@
             &emsp;&emsp;
             <div class="col-xm-3"><a href="/signup">Sign up</a></div>
         </div>
+
+
     </form>
 
 

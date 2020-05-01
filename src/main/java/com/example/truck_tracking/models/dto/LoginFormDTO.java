@@ -19,6 +19,8 @@ public class LoginFormDTO {
     @Size(min = 5, max = 20, message = "Invalid password. Must be between 5 and 20 characters.")
     private String password;
 
+    private boolean isSupervisor;
+
     public String getUsername() {
         return username;
     }
@@ -33,5 +35,13 @@ public class LoginFormDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isSupervisor() {
+        return isSupervisor;
+    }
+
+    public void setSupervisor(boolean supervisor) {
+        isSupervisor = supervisor;
     }
 }
