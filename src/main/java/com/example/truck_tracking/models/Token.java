@@ -25,7 +25,10 @@ public class Token {
 
     private boolean isSupervisor;
 
-    public Token(@Size(min = 3, max = 30, message = "First name should be 3-30 characters") String firstName, @Size(min = 3, max = 30, message = "Last name should be 3-30 characters") String lastName, @Size(min = 3, max = 10, message = "Token should be 3-10 characters") String token,boolean isSupervisor) {
+    public Token() {
+    }
+
+    public Token(@Size(min = 3, max = 30, message = "First name should be 3-30 characters") String firstName, @Size(min = 3, max = 30, message = "Last name should be 3-30 characters") String lastName, @Size(min = 3, max = 10, message = "Token should be 3-10 characters") String token, boolean isSupervisor) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.token = token;

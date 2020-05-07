@@ -14,15 +14,15 @@
 
 
 <div class="container">
-    <form class="form-horizontal" method="get" action="/supervisor" id="addform">
-
+    <form class="form-horizontal" method="post" >
+<p th:class="error" th:text="${errorMsg}"></p>
         <div class="form-group row justify-content-center" >
             <label for="driver" class="control-label col-sm-2">Select a driver:</label>
             <div class="col-xs-10">
-                <select class="form-control w-auto" id="driver">
-                    <option>Robert Cheruiyot</option>
-                    <option>Michael Njoroge</option>
-                    <option>Musa Otieno</option>
+                <select class="form-control w-auto" id="driver" name="username">
+                   <th:block th:each="driver : ${drivers}">
+                    <option th:value="${driver.username}" th:text="${driver}"></option>
+                    </th:block>
                 </select>
             </div>
         </div>
@@ -45,9 +45,18 @@
         <div class="form-group row justify-content-center " >
             <label for="description" class="control-label col-sm-2">Description:</label>
             <div class="col-xs-10">
-                <input type="text" id="description" name="last name" placeholder="Description">
+                <input type="text" id="description" name="description" placeholder="Description">
             </div>
         </div>
+
+
+        <div class="form-group row justify-content-center " >
+            <label for="recipient" class="control-label col-sm-2">Recipient:</label>
+            <div class="col-xs-10">
+                <input type="text" id="recipient" name="recipient" placeholder="Recipient">
+            </div>
+        </div>
+
 
         <div class=" row justify-content-center"><button type="submit" class="btn btn-primary">Add Assignment</button></div>
 

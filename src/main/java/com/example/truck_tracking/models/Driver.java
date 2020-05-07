@@ -3,9 +3,14 @@ package com.example.truck_tracking.models;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Kipngetich
@@ -15,6 +20,9 @@ public class Driver extends AbstractEntity {
     @NotNull
     private String username;
 
+    @OneToMany
+    @JoinColumn
+    List<Shipment> shipments = new ArrayList<>();
     @NotNull
     private String pwHash;
 
@@ -31,7 +39,6 @@ public class Driver extends AbstractEntity {
 
     @NotNull
     private String token;
-
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     public Driver() {}
@@ -71,5 +78,34 @@ public class Driver extends AbstractEntity {
 
     public boolean isMatchingPassword(String password) {
         return encoder.matches(password, pwHash);
+    }
+    @Override
+    public String toString() {
+        return firstName +" "+lastName;
+    }
+
+    public List<Shipment> getShipments() {
+        return shipments;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Driver driver = (Driver) o;
+        return this.getId() == driver.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getUsername());
+    }
+
+    public void addShipment(Shipment shipment){
+        shipments.add(shipment);
+}
+    public void setShipments(List<Shipment> shipments) {
+        this.shipments = shipments;
     }
 }

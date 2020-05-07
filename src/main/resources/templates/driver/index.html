@@ -9,10 +9,18 @@
 <h3 class="text-success">Welcome <span th:text="${name}"></span> to your daily schedule</h3>
 
 <h4><span th:text="${today}"></span> Assignment</h4>
+<th:block th:each="date1 :${dates1}">
+    <p th:text="'D1 '+${date1}"></p>
+</th:block>
+
+<th:block th:each="date2 :${dates2}">
+    <p th:text="'D2 '+${date2}"></p>
+</th:block>
+
 
 <table class="table table-hover">
     <thead>
-    <tr>
+    <tr >
         <th scope="col">Source</th>
         <th scope="col">Destination</th>
         <th scope="col">Shipment Description</th>
@@ -22,11 +30,10 @@
     </thead>
     <tbody>
     <tr>
-        <!--<th scope="row">1</th>-->
-        <td>Kansas City</td>
-        <td>Denver</td>
-        <td>Vehicle Engine</td>
-        <td>Charles's Garage</td>
+        <td th:text="${myShipment.source}"></td>
+        <td th:text="${myShipment.destination}"></td>
+        <td th:text="${myShipment.description}"></td>
+        <td th:text="${myShipment.recipient}"></td>
         <td>Enroute</td>
     </tr>
     </tbody>
@@ -45,19 +52,12 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>Michael Njoroge</td>
-        <td>Kansas City</td>
-        <td>Wichita</td>
-        <td>Pharmaceuticals</td>
+    <tr th:each="shipment : ${shipments}">
+        <td th:text="${shipment.driver}"></td>
+        <td th:text="${shipment.source}"></td>
+        <td th:text="${shipment.destination}"></td>
+        <td th:text="${shipment.description}"></td>
         <td>No</td>
-    </tr>
-    <tr>
-        <td>Musa Otieno</td>
-        <td>Denver</td>
-        <td>Oklahoma</td>
-        <td>Clothes</td>
-        <td>Yes</td>
     </tr>
     </tbody>
 </table>

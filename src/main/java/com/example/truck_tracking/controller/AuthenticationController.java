@@ -1,9 +1,13 @@
 package com.example.truck_tracking.controller;
 
 import com.example.truck_tracking.models.Driver;
+import com.example.truck_tracking.models.Shipment;
 import com.example.truck_tracking.models.Supervisor;
+import com.example.truck_tracking.models.Token;
 import com.example.truck_tracking.models.data.DriverRepository;
+import com.example.truck_tracking.models.data.ShipmentRepository;
 import com.example.truck_tracking.models.data.SupervisorRepository;
+import com.example.truck_tracking.models.data.TokenRepository;
 import com.example.truck_tracking.models.dto.LoginFormDTO;
 import com.example.truck_tracking.models.dto.SignupFormDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,6 +35,10 @@ public class AuthenticationController {
     private DriverRepository driverRepository;
     @Autowired
     private SupervisorRepository supervisorRepository;
+    @Autowired
+    private TokenRepository tokenRepository;
+    @Autowired
+    private ShipmentRepository shipmentRepository;
 
     private static final String driverSessionKey = "driver";
     private static final String supervisorSessionKey = "supervisor";
@@ -43,7 +54,6 @@ public class AuthenticationController {
         if (user.isEmpty()) {
             return null;
         }
-
         return user.get();
     }
 
@@ -105,6 +115,30 @@ public class AuthenticationController {
             return "signup";
         }
 
+        String newToken = signupFormDTO.getToken();
+        Optional<Token> savedToken = Optional.ofNullable(tokenRepository.findByToken(newToken));
+
+        if(!savedToken.isPresent()){
+            errors.rejectValue("token", "token.doesnotexists", "The token does not exist");
+            model.addAttribute("title", "Signup");
+            model.addAttribute("appName","Shipper's Scheduler");
+            model.addAttribute("company","Daily Shippers");
+            return "signup";
+            }
+        else {
+            Token token = savedToken.get();
+            if(!signupFormDTO.getFirstName().equals(token.getFirstName())
+                    || !signupFormDTO.getLastName().equals(token.getLastName())
+                    || signupFormDTO.isSupervisor()!=token.isSupervisor()){
+                errors.rejectValue("token", "token.doesnotexists", "The token does not exist");
+                model.addAttribute("title", "Signup");
+                model.addAttribute("appName","Shipper's Scheduler");
+                model.addAttribute("company","Daily Shippers");
+                return "signup";
+            }
+
+        }
+
         String password = signupFormDTO.getPassword();
         String verifyPassword = signupFormDTO.getVerifyPassword();
         if (!password.equals(verifyPassword)) {
@@ -133,10 +167,10 @@ public class AuthenticationController {
     @GetMapping("")
     public String displayLoginForm(Model model) {
         model.addAttribute(new LoginFormDTO());
-       // model.addAttribute("title", "Log In");
         model.addAttribute("appName","Shipper's Scheduler");
         model.addAttribute("company","Daily Shippers");
         model.addAttribute("title","Truck Company");
+        model.addAttribute("shipments",shipmentRepository.findAll());
         return "index";
     }
 
@@ -182,6 +216,7 @@ public class AuthenticationController {
             model.addAttribute("appName","Shipper's Scheduler");
             model.addAttribute("company","Daily Shippers");
             model.addAttribute("title","Truck Company");
+            model.addAttribute("shipments",shipmentRepository.findAll());
             return "supervisor/index";
 
         }
@@ -212,9 +247,28 @@ public class AuthenticationController {
             }
 
             setDriverInSession(request.getSession(), theDriver);
+            String today = LocalDate.now().toString();
+            String shipmentDate;
+            List<Shipment> shipments = new ArrayList<>();
+
+
+            for(Shipment shipment:shipmentRepository.findAll()){
+
+               if(!shipment.getDriver().equals(theDriver)){
+                   shipmentDate = shipment.getDate();
+                   if(shipmentDate.equals(today)){
+                       shipments.add(shipment);
+                   }
+                }
+            }
+
             model.addAttribute("appName","Shipper's Scheduler");
             model.addAttribute("company","Daily Shippers");
             model.addAttribute("title","Truck Company");
+            model.addAttribute("name",theDriver.getLastName());
+            model.addAttribute("today", LocalDate.now());
+            model.addAttribute("myShipment",shipmentRepository.findByDateAndDriver(LocalDate.now().toString(),theDriver));
+            model.addAttribute("shipments",shipments);
             return "driver/index";
         }
     }

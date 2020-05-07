@@ -9,9 +9,10 @@
 <h3 class="text-success">Welcome <span th:text="${name}"></span>.</h3>
 
 <h4><span th:text="${today}"></span></h4>
-<p><a href="supervisor/add">Add Assignments</a></p>
+<p><a th:href="@{/supervisor/add}">Add Assignments</a></p>
+<p><a th:href="@{/supervisor/addToken}">Add Token</a></p>
 <hr>
-<p>Driver Assignments</p>
+<p>Drivers' Assignments</p>
 <table class="table table-hover">
     <thead>
     <tr>
@@ -24,20 +25,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>Michael Njoroge</td>
-        <td>Kansas City</td>
-        <td>Wichita</td>
-        <td>Pharmaceuticals</td>
+    <tr th:each="shipment : ${shipments}">
+        <td th:text="${shipment.driver}"></td>
+        <td th:text="${shipment.source}"></td>
+        <td th:text="${shipment.destination}"></td>
+        <td th:text="${shipment.description}"></td>
+        <td th:text="${shipment.recipient}"></td>
         <td>Enroute</td>
-        <td><a href="#">Locate Driver</a></td>
-    </tr>
-    <tr>
-        <td>Musa Otieno</td>
-        <td>Denver</td>
-        <td>Oklahoma</td>
-        <td>Clothes</td>
-        <td>Delivered</td>
         <td><a href="#">Locate Driver</a></td>
     </tr>
     </tbody>
