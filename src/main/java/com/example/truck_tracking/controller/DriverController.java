@@ -1,16 +1,10 @@
 package com.example.truck_tracking.controller;
 
-import com.example.truck_tracking.models.Driver;
-import com.example.truck_tracking.models.Shipment;
 import com.example.truck_tracking.models.data.ShipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.time.LocalDate;
 
 /**
  * Created by Kipngetich

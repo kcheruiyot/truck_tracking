@@ -16,7 +16,7 @@ import java.util.Objects;
  * Created by Kipngetich
  */
 @Entity
-public class Driver extends AbstractEntity {
+public class User extends AbstractEntity{
     @NotNull
     private String username;
 
@@ -38,18 +38,19 @@ public class Driver extends AbstractEntity {
     private String email;
 
     @NotNull
-    private String token;
+    private boolean isSupervisor;
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    public Driver() {}
 
-    public Driver(@NotNull String username, @NotNull String password, @NotNull @Size(min = 3, max = 20, message = "Name must be 3-20 characters") String firstName, @Size(min = 3, max = 20, message = "Name must be 3-20 characters") String lastName, @NotNull @Email String email, @NotNull String token) {
+    public User() {}
+
+    public User(@NotNull String username, @NotNull String password, @NotNull @Size(min = 3, max = 20, message = "Name must be 3-20 characters") String firstName, @Size(min = 3, max = 20, message = "Name must be 3-20 characters") String lastName, @NotNull @Email String email,boolean isSupervisor) {
         this.username = username;
-        this.pwHash = encoder.encode(password);
+        this.pwHash = encoder.encode(password);;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.token = token;
+        this.isSupervisor = isSupervisor;
     }
 
     public String getUsername() {
@@ -64,18 +65,18 @@ public class Driver extends AbstractEntity {
         return lastName;
     }
 
+    public boolean isSupervisor() {
+        return isSupervisor;
+    }
+
     public String getEmail() {
         return email;
     }
 
-    public String getToken() {
-        return token;
-    }
 
-    public void setToken(String token) {
-        this.token = token;
+    public List<Shipment> getShipments() {
+        return shipments;
     }
-
     public boolean isMatchingPassword(String password) {
         return encoder.matches(password, pwHash);
     }
@@ -83,20 +84,6 @@ public class Driver extends AbstractEntity {
     public String toString() {
         return firstName +" "+lastName;
     }
-
-    public List<Shipment> getShipments() {
-        return shipments;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Driver driver = (Driver) o;
-        return this.getId() == driver.getId();
-    }
-
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), getUsername());
@@ -104,8 +91,8 @@ public class Driver extends AbstractEntity {
 
     public void addShipment(Shipment shipment){
         shipments.add(shipment);
-}
-    public void setShipments(List<Shipment> shipments) {
-        this.shipments = shipments;
     }
+
+
+
 }

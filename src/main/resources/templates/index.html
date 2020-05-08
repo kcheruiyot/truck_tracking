@@ -21,20 +21,14 @@
             <div class="col-xs-10">
                 <input class="form-control" th:field="${loginFormDTO.username}">
             </div>
-            <p class="error" th:errors="${loginFormDTO.username}"></p>
+            <p class="text-danger" th:errors="${loginFormDTO.username}"></p>
         </div>
         <div class="form-group row justify-content-center">
             <label class="control-label col-sm-2">Password</label>
             <div class="col-xs-10">
                 <input class="form-control" th:field="${loginFormDTO.password}" type="password">
             </div>
-            <p class="error" th:errors="${loginFormDTO.password}"></p>
-        </div>
-        <div class="form-group row justify-content-center">
-            <label class="control-label col-sm-2 form-check-label">Supervisor:</label>
-            <div class="col-xs-10">
-                <input  type="checkbox" class="form-check-input" th:field="${loginFormDTO.supervisor}" />
-            </div>
+            <p class="text-danger" th:errors="${loginFormDTO.password}"></p>
         </div>
         <div class="form-group row justify-content-center">
             <label class="control-label col-sm-2"></label>

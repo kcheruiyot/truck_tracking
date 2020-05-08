@@ -3,7 +3,6 @@ package com.example.truck_tracking.models;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 
 /**

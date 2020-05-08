@@ -1,19 +1,17 @@
 package com.example.truck_tracking.controller;
 
-import com.example.truck_tracking.models.Driver;
 import com.example.truck_tracking.models.Shipment;
 import com.example.truck_tracking.models.Token;
-import com.example.truck_tracking.models.data.DriverRepository;
+import com.example.truck_tracking.models.User;
 import com.example.truck_tracking.models.data.ShipmentRepository;
 import com.example.truck_tracking.models.data.TokenRepository;
+import com.example.truck_tracking.models.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +23,13 @@ import java.util.Optional;
 @Controller
 @RequestMapping("supervisor")
 public class SupervisorController {
-    @Autowired
-    private DriverRepository driverRepository;
+
     @Autowired
     private ShipmentRepository shipmentRepository;
     @Autowired
     private TokenRepository tokenRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping
     public String index(Model model){
@@ -49,7 +48,14 @@ public class SupervisorController {
         model.addAttribute("title","Truck Company");
         model.addAttribute("name","Cheruiyot");
         model.addAttribute(new Shipment());
-       model.addAttribute("drivers",driverRepository.findAll());
+        Iterable<User> users = userRepository.findAll();
+        List<User> drivers = new ArrayList<>();
+        for(User user:users){
+            if(!user.isSupervisor()){
+                drivers.add(user);
+            }
+        }
+       model.addAttribute("drivers",drivers);
 
         return "supervisor/add";
     }
@@ -57,25 +63,25 @@ public class SupervisorController {
     public String processAddAssignmentForm(@RequestParam String username, @RequestParam String source, @RequestParam String destination, @RequestParam String description, @RequestParam String recipient, Model model){
 
 
-        Optional<Driver> optionalDriver= Optional.ofNullable(driverRepository.findByUsername(username));
-       if(optionalDriver.isPresent()){
-           Driver currentDriver = optionalDriver.get();
-           Shipment shipment = new Shipment(currentDriver,source,destination,description, recipient);
+        Optional<User> optionalUser= Optional.ofNullable(userRepository.findByUsername(username));
+       if(optionalUser.isPresent()){
+           User currentUser = optionalUser.get();
+           Shipment shipment = new Shipment(currentUser,source,destination,description, recipient);
 
            Iterable<Shipment> shipments = shipmentRepository.findAll();
            for(Shipment shipment1: shipments){
-               if(shipment1.getDriver().equals(currentDriver)&& (shipment.getDate().equals(LocalDate.now().toString()))){
+               if(shipment1.getUser().equals(currentUser)&& (shipment.getDate().equals(LocalDate.now()))){
                    model.addAttribute("appName","Shipper's Scheduler");
                    model.addAttribute("company","Daily Shippers");
                    model.addAttribute("title","Truck Company");
                    model.addAttribute("name","Cheruiyot");
                    model.addAttribute(new Shipment());
-                   model.addAttribute("drivers",driverRepository.findAll());
+                   model.addAttribute("drivers",userRepository.findAll());
                    model.addAttribute("errorMsg","Driver already assigned today");
                    return "supervisor/add";
                }
            }
-           currentDriver.addShipment(shipment);
+           currentUser.addShipment(shipment);
            shipmentRepository.save(shipment);
 
            model.addAttribute("appName","Shipper's Scheduler");
@@ -83,7 +89,7 @@ public class SupervisorController {
            model.addAttribute("title","Truck Company");
            model.addAttribute("name","Cheruiyot");
            model.addAttribute("today", LocalDate.now());
-           model.addAttribute("currentDriver",shipment.getDriver());
+           model.addAttribute("currentDriver",shipment.getUser());
            model.addAttribute("shipments",shipmentRepository.findAll());
            return "redirect:";
        }else {

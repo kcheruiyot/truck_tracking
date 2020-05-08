@@ -1,8 +1,10 @@
 package com.example.truck_tracking.models;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * Created by Kipngetich
@@ -14,7 +16,7 @@ public class Shipment {
     private int id;
 
     @ManyToOne
-    private Driver driver;
+    private User user;
     private String source;
     private String destination;
     private String description;
@@ -25,12 +27,12 @@ public class Shipment {
         return id;
     }
 
-    public Driver getDriver() {
-        return driver;
+    public User getUser() {
+        return user;
     }
 
-    public void setDriver(Driver driver) {
-        this.driver = driver;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getSource() {
@@ -72,8 +74,8 @@ public class Shipment {
         return date;
     }
 
-    public Shipment(Driver driver, String source, String destination, String description, String recipient) {
-        this.driver = driver;
+    public Shipment(User user, String source, String destination, String description, String recipient) {
+        this.user = user;
         this.source = source;
         this.destination = destination;
         this.description = description;

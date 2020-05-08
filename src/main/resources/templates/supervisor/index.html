@@ -26,7 +26,7 @@
     </thead>
     <tbody>
     <tr th:each="shipment : ${shipments}">
-        <td th:text="${shipment.driver}"></td>
+        <td th:text="${shipment.user}"></td>
         <td th:text="${shipment.source}"></td>
         <td th:text="${shipment.destination}"></td>
         <td th:text="${shipment.description}"></td>

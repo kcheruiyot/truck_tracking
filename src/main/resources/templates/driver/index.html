@@ -9,13 +9,7 @@
 <h3 class="text-success">Welcome <span th:text="${name}"></span> to your daily schedule</h3>
 
 <h4><span th:text="${today}"></span> Assignment</h4>
-<th:block th:each="date1 :${dates1}">
-    <p th:text="'D1 '+${date1}"></p>
-</th:block>
 
-<th:block th:each="date2 :${dates2}">
-    <p th:text="'D2 '+${date2}"></p>
-</th:block>
 
 
 <table class="table table-hover">
@@ -29,13 +23,16 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td th:text="${myShipment.source}"></td>
-        <td th:text="${myShipment.destination}"></td>
-        <td th:text="${myShipment.description}"></td>
-        <td th:text="${myShipment.recipient}"></td>
-        <td>Enroute</td>
-    </tr>
+    <th:block th:if="${myShipment != null}">
+        <tr>
+            <td th:text="${myShipment.source}"></td>
+            <td th:text="${myShipment.destination}"></td>
+            <td th:text="${myShipment.description}"></td>
+            <td th:text="${myShipment.recipient}"></td>
+            <td>Enroute</td>
+        </tr>
+    </th:block>
+    <span th:unless="${myShipment !=null}" class="text-danger">You have no assignment</span>
     </tbody>
 </table>
 <hr>
@@ -53,7 +50,7 @@
     </thead>
     <tbody>
     <tr th:each="shipment : ${shipments}">
-        <td th:text="${shipment.driver}"></td>
+        <td th:text="${shipment.user}"></td>
         <td th:text="${shipment.source}"></td>
         <td th:text="${shipment.destination}"></td>
         <td th:text="${shipment.description}"></td>
