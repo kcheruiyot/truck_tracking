@@ -59,8 +59,8 @@ public class AuthenticationController {
     }
 
 
-    @GetMapping("/signup")
-    public String displayRegistrationForm(Model model) {
+    @GetMapping("signup")
+    public String displaySignupForm(Model model) {
         model.addAttribute(new SignupFormDTO());
         model.addAttribute("title", "Signup");
         model.addAttribute("appName","Shipper's Scheduler");
@@ -68,8 +68,8 @@ public class AuthenticationController {
         return "signup";
     }
 
-    @PostMapping("/signup")
-    public String processRegistrationForm(@ModelAttribute @Valid SignupFormDTO signupFormDTO,
+    @PostMapping("signup")
+    public String processSignupForm(@ModelAttribute @Valid SignupFormDTO signupFormDTO,
                                           Errors errors, HttpServletRequest request,
                                           Model model) {
 
@@ -127,11 +127,39 @@ public class AuthenticationController {
         User newUser = new User(signupFormDTO.getUsername(), signupFormDTO.getPassword(),signupFormDTO.getFirstName(),signupFormDTO.getLastName(),signupFormDTO.getEmail(),signupFormDTO.isSupervisor());
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
-        model.addAttribute(new LoginFormDTO());
+       // model.addAttribute(new LoginFormDTO());
         model.addAttribute("appName","Shipper's Scheduler");
         model.addAttribute("company","Daily Shippers");
         model.addAttribute("title","Truck Company");
-        return "redirect:";
+        if(signupFormDTO.isSupervisor()){
+            model.addAttribute("shipments",shipmentRepository.findAll());
+            return "supervisor/index";
+        }else{
+
+            String today = LocalDate.now().toString();
+            String shipmentDate;
+            List<Shipment> shipments = new ArrayList<>();
+            for(Shipment shipment:shipmentRepository.findAll()){
+                if(!shipment.getUser().equals(newUser)){
+                    shipmentDate = shipment.getDate();
+                    if(shipmentDate.equals(today)){
+                        shipments.add(shipment);
+                    }
+                }
+            }
+
+
+            model.addAttribute("name",newUser.getLastName());
+            model.addAttribute("today", LocalDate.now());
+
+            Optional<Shipment> optionalShipment = Optional.ofNullable(shipmentRepository.findByDateAndUser(LocalDate.now().toString(), newUser));
+            if(optionalShipment.isPresent()){
+                model.addAttribute("myShipment",optionalShipment.get());
+            }
+            model.addAttribute("shipments",shipments);
+            return "driver/index";
+        }
+
     }
     @GetMapping("")
     public String displayLoginForm(Model model) {
@@ -148,6 +176,7 @@ public class AuthenticationController {
                                    Model model) {
 
         if (errors.hasErrors()) {
+            model.addAttribute(new LoginFormDTO());
             model.addAttribute("appName","Shipper's Scheduler");
             model.addAttribute("company","Daily Shippers");
             model.addAttribute("title","Truck Company");
@@ -157,6 +186,7 @@ public class AuthenticationController {
 
         User user = userRepository.findByUsername(loginFormDTO.getUsername());
         if (user == null) {
+            model.addAttribute(new LoginFormDTO());
             errors.rejectValue("username", "user.invalid", "The given username does not exist");
             model.addAttribute("appName","Shipper's Scheduler");
             model.addAttribute("company","Daily Shippers");
@@ -167,18 +197,19 @@ public class AuthenticationController {
         String password = loginFormDTO.getPassword();
 
         if(!user.isMatchingPassword(password)){
+            model.addAttribute(new LoginFormDTO());
             errors.rejectValue("password", "password.invalid", "Invalid password");
             model.addAttribute("appName","Shipper's Scheduler");
             model.addAttribute("company","Daily Shippers");
             model.addAttribute("title","Truck Company");
             return "index";
         }
+        setUserInSession(request.getSession(), user);
+        model.addAttribute("appName","Shipper's Scheduler");
+        model.addAttribute("company","Daily Shippers");
+        model.addAttribute("title","Truck Company");
 
         if(user.isSupervisor()) {
-            setUserInSession(request.getSession(), user);
-            model.addAttribute("appName","Shipper's Scheduler");
-            model.addAttribute("company","Daily Shippers");
-            model.addAttribute("title","Truck Company");
             model.addAttribute("shipments",shipmentRepository.findAll());
             return "supervisor/index";
         }
@@ -195,9 +226,7 @@ public class AuthenticationController {
                 }
             }
 
-            model.addAttribute("appName","Shipper's Scheduler");
-            model.addAttribute("company","Daily Shippers");
-            model.addAttribute("title","Truck Company");
+
             model.addAttribute("name",user.getLastName());
             model.addAttribute("today", LocalDate.now());
 

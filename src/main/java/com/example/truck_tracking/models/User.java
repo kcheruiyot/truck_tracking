@@ -23,21 +23,15 @@ public class User extends AbstractEntity{
     @OneToMany
     @JoinColumn
     List<Shipment> shipments = new ArrayList<>();
-    @NotNull
     private String pwHash;
 
-    @NotNull
-    @Size(min = 3,max = 20,message = "Name must be 3-20 characters")
     private String firstName;
 
-    @Size(min = 3,max = 20,message = "Name must be 3-20 characters")
     private String lastName;
 
-    @NotNull
-    @Email
     private String email;
 
-    @NotNull
+
     private boolean isSupervisor;
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();

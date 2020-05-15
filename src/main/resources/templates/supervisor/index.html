@@ -16,6 +16,7 @@
 <table class="table table-hover">
     <thead>
     <tr>
+        <th scope="col">Date</th>
         <th scope="col">Name</th>
         <th scope="col">Source</th>
         <th scope="col">Destination</th>
@@ -26,6 +27,7 @@
     </thead>
     <tbody>
     <tr th:each="shipment : ${shipments}">
+        <td th:text="${shipment.date}"></td>
         <td th:text="${shipment.user}"></td>
         <td th:text="${shipment.source}"></td>
         <td th:text="${shipment.destination}"></td>

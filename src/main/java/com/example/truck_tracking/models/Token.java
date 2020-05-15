@@ -3,6 +3,7 @@ package com.example.truck_tracking.models;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -14,11 +15,15 @@ public class Token {
     @GeneratedValue
     private int id;
 
+   @NotNull
    @Size(min = 3,max = 30,message = "First name should be 3-30 characters")
     private String firstName;
+
+    @NotNull
     @Size(min = 3,max = 30,message = "Last name should be 3-30 characters")
     private String lastName;
 
+    @NotNull
     @Size(min = 3,max = 10,message = "Token should be 3-10 characters")
     private String token;
 

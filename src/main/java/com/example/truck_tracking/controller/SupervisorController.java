@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,16 +32,16 @@ public class SupervisorController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping
-    public String index(Model model){
-        model.addAttribute("appName","Shipper's Scheduler");
-        model.addAttribute("company","Daily Shippers");
-        model.addAttribute("title","Truck Company");
-        model.addAttribute("name","Cheruiyot");
-        model.addAttribute("today", LocalDate.now());
-        model.addAttribute("shipments",shipmentRepository.findAll());
-        return "supervisor/index";
-    }
+//    @GetMapping
+//    public String index(Model model){
+//        model.addAttribute("appName","Shipper's Scheduler");
+//        model.addAttribute("company","Daily Shippers");
+//        model.addAttribute("title","Truck Company");
+//        model.addAttribute("name","Cheruiyot");
+//        model.addAttribute("today", LocalDate.now());
+//        model.addAttribute("shipments",shipmentRepository.findAll());
+//        return "supervisor/index";
+//    }
     @GetMapping("add")
     public String displayAddAssignmentsForm(Model model){
         model.addAttribute("appName","Shipper's Scheduler");
@@ -70,13 +71,20 @@ public class SupervisorController {
 
            Iterable<Shipment> shipments = shipmentRepository.findAll();
            for(Shipment shipment1: shipments){
-               if(shipment1.getUser().equals(currentUser)&& (shipment.getDate().equals(LocalDate.now()))){
+               if(shipment1.getUser().equals(currentUser)&& (shipment1.getDate().equals(LocalDate.now().toString()))){
                    model.addAttribute("appName","Shipper's Scheduler");
                    model.addAttribute("company","Daily Shippers");
                    model.addAttribute("title","Truck Company");
                    model.addAttribute("name","Cheruiyot");
                    model.addAttribute(new Shipment());
-                   model.addAttribute("drivers",userRepository.findAll());
+                   Iterable<User> users = userRepository.findAll();
+                   List<User> drivers = new ArrayList<>();
+                   for(User user:users){
+                       if(!user.isSupervisor()){
+                           drivers.add(user);
+                       }
+                   }
+                   model.addAttribute("drivers",drivers);
                    model.addAttribute("errorMsg","Driver already assigned today");
                    return "supervisor/add";
                }
@@ -91,7 +99,7 @@ public class SupervisorController {
            model.addAttribute("today", LocalDate.now());
            model.addAttribute("currentDriver",shipment.getUser());
            model.addAttribute("shipments",shipmentRepository.findAll());
-           return "redirect:";
+           return "supervisor/index";
        }else {
            return "supervisor/add";
        }
@@ -110,10 +118,10 @@ public class SupervisorController {
 
 
     @PostMapping("addToken")
-    public String processTokenForm( @ModelAttribute Token token,Errors errors,Model model){
+    public String processTokenForm(@ModelAttribute @Valid Token token, Errors errors, Model model){
 
         Optional<Token> optionalToken = Optional.ofNullable(tokenRepository.findByToken(token.getToken()));
-       if(optionalToken.isPresent()){
+       if(optionalToken.isPresent() || errors.hasErrors()){
            model.addAttribute("appName","Shipper's Scheduler");
            model.addAttribute("company","Daily Shippers");
            model.addAttribute("title","Truck Company");
@@ -125,6 +133,6 @@ public class SupervisorController {
         //Token newToken = new Token(firstName,lastName,theToken,isSupervisor);
        tokenRepository.save(token);
         model.addAttribute("shipments",shipmentRepository.findAll());
-        return "redirect:";
+        return "supervisor/index";
     }
 }

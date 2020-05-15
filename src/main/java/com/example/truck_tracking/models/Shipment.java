@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
@@ -17,9 +18,13 @@ public class Shipment {
 
     @ManyToOne
     private User user;
+    @NotNull
     private String source;
+    @NotNull
     private String destination;
+    @NotNull
     private String description;
+    @NotNull
     private String recipient;
     private final String date = LocalDate.now().toString();
 

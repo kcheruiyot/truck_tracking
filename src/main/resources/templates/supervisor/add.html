@@ -15,14 +15,12 @@
 
 <div class="container">
     <form class="form-horizontal" method="post" >
-<p th:class="error" th:text="${errorMsg}"></p>
+<p class="text-danger text-center" th:text="${errorMsg}"></p>
         <div class="form-group row justify-content-center" >
             <label for="driver" class="control-label col-sm-2">Select a driver:</label>
             <div class="col-xs-10">
-                <select class="form-control w-auto" id="driver" name="username">
-                   <th:block th:each="driver : ${drivers}">
-                    <option th:value="${driver.username}" th:text="${driver}"></option>
-                    </th:block>
+                <select class="form-control w-auto" id="driver" name="username" >
+                    <option  th:each="driver : ${drivers}" th:value="${driver.username}" th:text="${driver}"></option>
                 </select>
             </div>
         </div>

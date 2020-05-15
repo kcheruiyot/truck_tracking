@@ -1,5 +1,7 @@
 package com.example.truck_tracking.models.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -18,9 +20,12 @@ public class SignupFormDTO extends LoginFormDTO{
     private String lastName;
 
     @NotNull
+    @NotBlank(message = "Email is required")
+    @Email(message = "Not valid email")
     private String email;
 
     @NotNull
+    @NotBlank(message = "Token is required")
     private String token;
     private boolean isSupervisor;
 
