@@ -3,14 +3,14 @@
 <head th:replace="fragments:: head">
 </head>
 
-<header th:replace="fragments:: header">
+<header th:replace="fragments:: header-logged">
 </header>
+
 <body>
 <h3 class="text-success">Welcome <span th:text="${name}"></span>.</h3>
 
 <h4><span th:text="${today}"></span></h4>
-<p><a th:href="@{/supervisor/add}">Add Assignments</a></p>
-<p><a th:href="@{/supervisor/addToken}">Add Token</a></p>
+<nav th:replace="fragments::supervisor-nav"></nav>
 <hr>
 <p>Drivers' Assignments</p>
 <table class="table table-hover">

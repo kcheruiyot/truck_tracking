@@ -18,7 +18,17 @@
     <title th:text="${title}"></title>
 
 </head>
-<header th:fragment="header">
+<nav th:fragment="header">
+    <div class="container">
+        <div class="jumbotron text-center ">
+            <h1 th:text="${company}" class="text-primary"></h1>
+            <div class="container mt-3">
+                <h4 th:text="${appName}"></h4>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav th:fragment="header-logged">
     <ul class="nav" style="float:right;">
         <li class="nav-item"><a class="nav-link" href="/logout">Log out</a></li>
     </ul>
@@ -30,7 +40,44 @@
             </div>
         </div>
     </div>
-</header>
+</nav>
+
+<nav class="navbar navbar-inverse" th:fragment="supervisor-nav">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/supervisor/add}">Add Assignments</a></li>
+            <li><a th:href="@{/supervisor/addToken}">Add Token</a></li>
+        </ul>
+    </div>
+</nav>
+<nav class="navbar navbar-inverse" th:fragment="addToken">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/supervisor/index}">Home</a></li>
+            <li><a th:href="@{/supervisor/add}">Add Assignments</a></li>
+        </ul>
+    </div>
+</nav>
+
+<nav class="navbar navbar-inverse" th:fragment="addAssignment">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/supervisor/index}">Home</a></li>
+            <li><a th:href="@{/supervisor/addToken}">Add Token</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+
+
+
 <body>
 
 </body>

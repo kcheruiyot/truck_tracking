@@ -59,7 +59,7 @@ public class AuthenticationController {
     }
 
 
-    @GetMapping("signup")
+    @GetMapping("/signup")
     public String displaySignupForm(Model model) {
         model.addAttribute(new SignupFormDTO());
         model.addAttribute("title", "Signup");
@@ -68,7 +68,7 @@ public class AuthenticationController {
         return "signup";
     }
 
-    @PostMapping("signup")
+    @PostMapping("/signup")
     public String processSignupForm(@ModelAttribute @Valid SignupFormDTO signupFormDTO,
                                           Errors errors, HttpServletRequest request,
                                           Model model) {
@@ -161,53 +161,51 @@ public class AuthenticationController {
         }
 
     }
-    @GetMapping("")
+    @GetMapping("/login")
     public String displayLoginForm(Model model) {
         model.addAttribute(new LoginFormDTO());
         model.addAttribute("appName","Shipper's Scheduler");
         model.addAttribute("company","Daily Shippers");
         model.addAttribute("title","Truck Company");
-        return "index";
+        return "login";
     }
 
-    @PostMapping("")
+    @PostMapping("/login")
     public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,
                                    Errors errors, HttpServletRequest request,
                                    Model model) {
 
         if (errors.hasErrors()) {
-            model.addAttribute(new LoginFormDTO());
             model.addAttribute("appName","Shipper's Scheduler");
             model.addAttribute("company","Daily Shippers");
             model.addAttribute("title","Truck Company");
-            return "index";
+            return "login";
         }
 
 
         User user = userRepository.findByUsername(loginFormDTO.getUsername());
         if (user == null) {
-            model.addAttribute(new LoginFormDTO());
             errors.rejectValue("username", "user.invalid", "The given username does not exist");
             model.addAttribute("appName","Shipper's Scheduler");
             model.addAttribute("company","Daily Shippers");
             model.addAttribute("title","Truck Company");
-            return "index";
+            return "login";
         }
 
         String password = loginFormDTO.getPassword();
 
         if(!user.isMatchingPassword(password)){
-            model.addAttribute(new LoginFormDTO());
             errors.rejectValue("password", "password.invalid", "Invalid password");
             model.addAttribute("appName","Shipper's Scheduler");
             model.addAttribute("company","Daily Shippers");
             model.addAttribute("title","Truck Company");
-            return "index";
+            return "login";
         }
         setUserInSession(request.getSession(), user);
         model.addAttribute("appName","Shipper's Scheduler");
         model.addAttribute("company","Daily Shippers");
         model.addAttribute("title","Truck Company");
+        model.addAttribute("name",user.getLastName());
 
         if(user.isSupervisor()) {
             model.addAttribute("shipments",shipmentRepository.findAll());
@@ -241,6 +239,6 @@ public class AuthenticationController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request){
         request.getSession().invalidate();
-        return "redirect:";
+        return "redirect:/login";
     }
 }

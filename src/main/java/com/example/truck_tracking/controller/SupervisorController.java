@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,23 +33,35 @@ public class SupervisorController {
     private TokenRepository tokenRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AuthenticationController authenticationController;
 
-//    @GetMapping
-//    public String index(Model model){
-//        model.addAttribute("appName","Shipper's Scheduler");
-//        model.addAttribute("company","Daily Shippers");
-//        model.addAttribute("title","Truck Company");
-//        model.addAttribute("name","Cheruiyot");
-//        model.addAttribute("today", LocalDate.now());
-//        model.addAttribute("shipments",shipmentRepository.findAll());
-//        return "supervisor/index";
-//    }
+
+  @GetMapping("index")
+   public String index(Model model, HttpServletRequest request){
+      HttpSession session = request.getSession();
+      User user = authenticationController.getUserFromSession(session);
+      if(user!=null){
+          model.addAttribute("appName","Shipper's Scheduler");
+          model.addAttribute("company","Daily Shippers");
+          model.addAttribute("title","Truck Company");
+          model.addAttribute("name",user.getLastName());
+          model.addAttribute("today", LocalDate.now());
+          model.addAttribute("shipments",shipmentRepository.findAll());
+          return "supervisor/index";
+      }else{
+          return "redirect:/login";
+      }
+
+   }
     @GetMapping("add")
-    public String displayAddAssignmentsForm(Model model){
+    public String displayAddAssignmentsForm(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        User activeUser = authenticationController.getUserFromSession(session);
         model.addAttribute("appName","Shipper's Scheduler");
         model.addAttribute("company","Daily Shippers");
         model.addAttribute("title","Truck Company");
-        model.addAttribute("name","Cheruiyot");
+        model.addAttribute("name",activeUser.getLastName());
         model.addAttribute(new Shipment());
         Iterable<User> users = userRepository.findAll();
         List<User> drivers = new ArrayList<>();
