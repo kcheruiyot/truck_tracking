@@ -47,7 +47,15 @@ public class SupervisorController {
           model.addAttribute("title","Truck Company");
           model.addAttribute("name",user.getLastName());
           model.addAttribute("today", LocalDate.now());
-          model.addAttribute("shipments",shipmentRepository.findAll());
+          Iterable<Shipment>  allShipments = shipmentRepository.findAll();
+          List<Shipment> shipments = new ArrayList<>();
+          for(Shipment shipment: allShipments){
+              if(shipment.getDate().equals(LocalDate.now().toString())){
+                  shipments.add(shipment);
+              }
+          }
+
+          model.addAttribute("shipments",shipments);
           return "supervisor/index";
       }else{
           return "redirect:/login";
@@ -148,5 +156,41 @@ public class SupervisorController {
        tokenRepository.save(token);
         model.addAttribute("shipments",shipmentRepository.findAll());
         return "supervisor/index";
+    }
+    @GetMapping("location")
+    public String location(@RequestParam String username, Model model,HttpServletRequest request){
+      User user = userRepository.findByUsername(username);
+      Shipment shipment = shipmentRepository.findByDateAndUser(LocalDate.now().toString(),user);
+        model.addAttribute("appName","Shipper's Scheduler");
+        model.addAttribute("company","Daily Shippers");
+        model.addAttribute("title","Truck Company");
+        model.addAttribute("shipment",shipment);
+        HttpSession session = request.getSession();
+        User activeUser = authenticationController.getUserFromSession(session);
+        model.addAttribute("name",activeUser.getLastName());
+        model.addAttribute("driver",user);
+        model.addAttribute("today",LocalDate.now());
+        model.addAttribute("lat",user.getLat());
+        model.addAttribute("lng",user.getLng());
+      return "supervisor/location";
+    }
+
+
+    @GetMapping("allAssignments")
+    public String allAssignments(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        User user = authenticationController.getUserFromSession(session);
+        if(user!=null){
+            model.addAttribute("appName","Shipper's Scheduler");
+            model.addAttribute("company","Daily Shippers");
+            model.addAttribute("title","Truck Company");
+            model.addAttribute("name",user.getLastName());
+            model.addAttribute("today", LocalDate.now());
+            model.addAttribute("shipments",shipmentRepository.findAll());
+            return "supervisor/allAssignments";
+        }else{
+            return "redirect:/login";
+        }
+
     }
 }

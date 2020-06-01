@@ -208,7 +208,14 @@ public class AuthenticationController {
         model.addAttribute("name",user.getLastName());
 
         if(user.isSupervisor()) {
-            model.addAttribute("shipments",shipmentRepository.findAll());
+            Iterable<Shipment>  allShipments = shipmentRepository.findAll();
+            List<Shipment> shipments = new ArrayList<>();
+            for(Shipment shipment: allShipments){
+                if(shipment.getDate().equals(LocalDate.now().toString())){
+                    shipments.add(shipment);
+                }
+            }
+            model.addAttribute("shipments",shipments);
             return "supervisor/index";
         }
         else {

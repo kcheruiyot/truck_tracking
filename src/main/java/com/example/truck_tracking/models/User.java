@@ -31,6 +31,9 @@ public class User extends AbstractEntity{
 
     private String email;
 
+    private double lat =0;
+
+    private double lng=0;
 
     private boolean isSupervisor;
 
@@ -45,6 +48,9 @@ public class User extends AbstractEntity{
         this.lastName = lastName;
         this.email = email;
         this.isSupervisor = isSupervisor;
+        this.lat =38.397;
+
+        this.lng=-94.644;
     }
 
     public String getUsername() {
@@ -87,6 +93,19 @@ public class User extends AbstractEntity{
         shipments.add(shipment);
     }
 
+    public double getLat() {
+        return lat;
+    }
 
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
 
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
 }

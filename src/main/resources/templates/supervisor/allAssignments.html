@@ -34,11 +34,6 @@
         <td th:text="${shipment.description}"></td>
         <td th:text="${shipment.recipient}"></td>
         <td>Enroute</td>
-        <td>
-            <form th:action="@{/supervisor/location}">
-                <button class="btn btn-primary" th:name="username"type="submit" value="Locate Driver" th:attr="value=${shipment.user.username}">Locate Driver</button>
-            </form>
-        </td>
     </tr>
     </tbody>
 </table>
