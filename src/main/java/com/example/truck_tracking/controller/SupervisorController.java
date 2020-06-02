@@ -120,8 +120,16 @@ public class SupervisorController {
            model.addAttribute("name","Cheruiyot");
            model.addAttribute("today", LocalDate.now());
            model.addAttribute("currentDriver",shipment.getUser());
-           model.addAttribute("shipments",shipmentRepository.findAll());
-           return "supervisor/index";
+           Iterable<Shipment>  allShipments = shipmentRepository.findAll();
+           List<Shipment> todaysShipments = new ArrayList<>();
+           for(Shipment shipment1: allShipments){
+               if(shipment.getDate().equals(LocalDate.now().toString())){
+                   todaysShipments.add(shipment1);
+               }
+           }
+           model.addAttribute("shipments",shipments);
+           model.addAttribute("shipments",todaysShipments);
+           return "redirect:/supervisor/index";
        }else {
            return "supervisor/add";
        }
@@ -154,8 +162,15 @@ public class SupervisorController {
        }
         //Token newToken = new Token(firstName,lastName,theToken,isSupervisor);
        tokenRepository.save(token);
-        model.addAttribute("shipments",shipmentRepository.findAll());
-        return "supervisor/index";
+        Iterable<Shipment>  allShipments = shipmentRepository.findAll();
+        List<Shipment> shipments = new ArrayList<>();
+        for(Shipment shipment: allShipments){
+            if(shipment.getDate().equals(LocalDate.now().toString())){
+                shipments.add(shipment);
+            }
+        }
+        model.addAttribute("shipments",shipments);
+        return "redirect:/supervisor/index";
     }
     @GetMapping("location")
     public String location(@RequestParam String username, Model model,HttpServletRequest request){

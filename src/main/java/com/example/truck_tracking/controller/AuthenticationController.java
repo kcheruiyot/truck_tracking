@@ -163,7 +163,7 @@ public class AuthenticationController {
     }
     @GetMapping("/login")
     public String displayLoginForm(Model model) {
-        model.addAttribute(new LoginFormDTO());
+     model.addAttribute(new LoginFormDTO());
         model.addAttribute("appName","Shipper's Scheduler");
         model.addAttribute("company","Daily Shippers");
         model.addAttribute("title","Truck Company");
@@ -216,7 +216,7 @@ public class AuthenticationController {
                 }
             }
             model.addAttribute("shipments",shipments);
-            return "supervisor/index";
+            return "redirect:/supervisor/index";
         }
         else {
             String today = LocalDate.now().toString();
@@ -240,7 +240,7 @@ public class AuthenticationController {
                 model.addAttribute("myShipment",optionalShipment.get());
             }
             model.addAttribute("shipments",shipments);
-            return "driver/index";
+            return "redirect:/driver/index";
         }
     }
     @GetMapping("/logout")
