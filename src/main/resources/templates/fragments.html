@@ -55,7 +55,6 @@
 <nav class="navbar navbar-expand-lg float-right" th:fragment="supervisor-nav">
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-link" th:href="@{/supervisor/index}">Home</a>
             <a class="nav-link" th:href="@{/supervisor/add}">Add Assignments</a>
             <a class="nav-link" th:href="@{/supervisor/addToken}">Add Token</a>
             <a class="nav-link" th:href="@{/supervisor/allAssignments}">All Assignments</a>
@@ -63,8 +62,27 @@
     </div>
 </nav>
 
+<nav class="navbar navbar-expand-lg float-right" th:fragment="allAssignments">
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" th:href="@{/supervisor/index}">Home</a>
+            <a class="nav-link" th:href="@{/supervisor/add}">Add Assignments</a>
+            <a class="nav-link" th:href="@{/supervisor/addToken}">Add Token</a>
 
+        </div>
+    </div>
+</nav>
 
+<nav class="navbar navbar-expand-lg float-right" th:fragment="location">
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" th:href="@{/supervisor/index}">Home</a>
+            <a class="nav-link" th:href="@{/supervisor/add}">Add Assignments</a>
+            <a class="nav-link" th:href="@{/supervisor/addToken}">Add Token</a>
+            <a class="nav-link" th:href="@{/supervisor/allAssignments}">All Assignments</a>
+        </div>
+    </div>
+</nav>
 
 <!--<nav class="navbar navbar-inverse"> <!--th:fragment="supervisor-nav"-->>
     <!--<div class="container-fluid">

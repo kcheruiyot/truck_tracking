@@ -127,12 +127,20 @@ public class AuthenticationController {
         User newUser = new User(signupFormDTO.getUsername(), signupFormDTO.getPassword(),signupFormDTO.getFirstName(),signupFormDTO.getLastName(),signupFormDTO.getEmail(),signupFormDTO.isSupervisor());
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
+
        // model.addAttribute(new LoginFormDTO());
         model.addAttribute("appName","Shipper's Scheduler");
         model.addAttribute("company","Daily Shippers");
         model.addAttribute("title","Truck Company");
         if(signupFormDTO.isSupervisor()){
-            model.addAttribute("shipments",shipmentRepository.findAll());
+            Iterable<Shipment> allShipments = shipmentRepository.findAll();
+            List<Shipment> shipments = new ArrayList<>();
+            for(Shipment shipment:allShipments){
+                if(shipment.getDate().equals(LocalDate.now().toString())){
+                    shipments.add(shipment);
+                }
+            }
+            model.addAttribute("shipments",shipments);
             return "supervisor/index";
         }else{
 
