@@ -44,21 +44,40 @@
     <script th:inline="javascript">
 
     var map;
+    let latitude = null;
+    let longitude = null;
 
+
+    (function() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(setPosition);
+  }
+})();
+
+(function() {
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(setPosition);
+  }
+})();
+function setPosition(position){
+ latitude = parseFloat(position.coords.latitude);
+ longitude = parseFloat(position.coords.longitude);
+}
     function initMap() {
+
       map = new google.maps.Map(document.getElementById('map'), {
         center: {
-         lat:/*[[${lat}]]*/,
-          lng:/*[[${lng}]]*/
+         lat:latitude,
+         lng:longitude
         },
         zoom: 8
       });
-      var marker = new google.maps.Marker({position:{lat: /*[[${lat}]]*/,
-          lng: /*[[${lng}]]*/},map:map});
+      var marker = new google.maps.Marker({position:{lat: latitude,
+          lng: longitude},map:map});
     }
 
-  </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdCxTv93jvaJuqixqCx0rtBQe8dH69cao&callback=initMap"></script>
+  </script >
+    <script  th:inline="javascript" async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdCxTv93jvaJuqixqCx0rtBQe8dH69cao&callback=initMap"></script>
 </div>
 </body>
 </html>

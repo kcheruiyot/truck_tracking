@@ -29,6 +29,8 @@
         <th scope="col">Shipment Description</th>
         <th scope="col">Recipient</th>
         <th scope="col">Delivery Status</th>
+        <th scope="col">Swap</th>
+
     </tr>
     </thead>
     <tbody>
@@ -39,11 +41,15 @@
             <td th:text="${myShipment.description}"></td>
             <td th:text="${myShipment.recipient}"></td>
             <td>Enroute</td>
+            <td th:text="${myShipment.swappable} ?'Yes':'No'"></td>
         </tr>
     </th:block>
     <span th:unless="${myShipment !=null}" class="text-danger">You have no assignment</span>
     </tbody>
 </table>
+<form  th:method="post" th:action="@{/driver/index}">
+    <button class="btn btn-primary" th:name="swap" type="submit">Swap</button>
+</form>
 <hr>
 <h4>Other Drivers Assignments</h4>
 
@@ -63,7 +69,13 @@
         <td th:text="${shipment.source}"></td>
         <td th:text="${shipment.destination}"></td>
         <td th:text="${shipment.description}"></td>
-        <td>No</td>
+        <td>
+            <span th:if="${shipment.swappable}">
+                <form  th:method="post" th:action="@{/driver/swap}">
+                    <button class="btn btn-primary" th:name="username" th:attr="value=${shipment.user.username}" type="submit">Swap</button>
+                </form></span>
+            <span th:unless="${shipment.swappable}"> No</span>
+        </td>
     </tr>
     </tbody>
 </table>

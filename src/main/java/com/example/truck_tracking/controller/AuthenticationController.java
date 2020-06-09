@@ -63,7 +63,7 @@ public class AuthenticationController {
     public String displaySignupForm(Model model) {
         model.addAttribute(new SignupFormDTO());
         model.addAttribute("title", "Signup");
-        model.addAttribute("appName","Shipper's Scheduler");
+        model.addAttribute("appName","Drivers' Scheduler");
         model.addAttribute("company","Daily Shippers");
         return "signup";
     }
@@ -75,7 +75,7 @@ public class AuthenticationController {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Signup");
-            model.addAttribute("appName","Shipper's Scheduler");
+            model.addAttribute("appName","Drivers' Scheduler");
             model.addAttribute("company","Daily Shippers");
             return "signup";
         }
@@ -85,7 +85,7 @@ public class AuthenticationController {
         if (existingUser != null) {
             errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
             model.addAttribute("title", "Signup");
-            model.addAttribute("appName","Shipper's Scheduler");
+            model.addAttribute("appName","Drivers' Scheduler");
             model.addAttribute("company","Daily Shippers");
             return "signup";
         }
@@ -96,7 +96,7 @@ public class AuthenticationController {
         if(!savedToken.isPresent()){
             errors.rejectValue("token", "token.doesnotexists", "The token does not exist");
             model.addAttribute("title", "Signup");
-            model.addAttribute("appName","Shipper's Scheduler");
+            model.addAttribute("appName","Drivers' Scheduler");
             model.addAttribute("company","Daily Shippers");
             return "signup";
         }
@@ -107,7 +107,7 @@ public class AuthenticationController {
                     || signupFormDTO.isSupervisor()!=token.isSupervisor()){
                 errors.rejectValue("token", "token.doesnotexists", "The token does not exist");
                 model.addAttribute("title", "Signup");
-                model.addAttribute("appName","Shipper's Scheduler");
+                model.addAttribute("appName","Drivers' Scheduler");
                 model.addAttribute("company","Daily Shippers");
                 return "signup";
             }
@@ -119,7 +119,7 @@ public class AuthenticationController {
         if (!password.equals(verifyPassword)) {
             errors.rejectValue("password", "passwords.mismatch", "Passwords do not match");
             model.addAttribute("title", "Signup");
-            model.addAttribute("appName","Shipper's Scheduler");
+            model.addAttribute("appName","Drivers' Scheduler");
             model.addAttribute("company","Daily Shippers");
             return "signup";
         }
@@ -129,7 +129,7 @@ public class AuthenticationController {
         setUserInSession(request.getSession(), newUser);
 
        // model.addAttribute(new LoginFormDTO());
-        model.addAttribute("appName","Shipper's Scheduler");
+        model.addAttribute("appName","Drivers' Scheduler");
         model.addAttribute("company","Daily Shippers");
         model.addAttribute("title","Truck Company");
         if(signupFormDTO.isSupervisor()){
@@ -172,7 +172,7 @@ public class AuthenticationController {
     @GetMapping("/login")
     public String displayLoginForm(Model model) {
      model.addAttribute(new LoginFormDTO());
-        model.addAttribute("appName","Shipper's Scheduler");
+        model.addAttribute("appName","Drivers' Scheduler");
         model.addAttribute("company","Daily Shippers");
         model.addAttribute("title","Truck Company");
         return "login";
@@ -184,7 +184,7 @@ public class AuthenticationController {
                                    Model model) {
 
         if (errors.hasErrors()) {
-            model.addAttribute("appName","Shipper's Scheduler");
+            model.addAttribute("appName","Drivers' Scheduler");
             model.addAttribute("company","Daily Shippers");
             model.addAttribute("title","Truck Company");
             return "login";
@@ -194,7 +194,7 @@ public class AuthenticationController {
         User user = userRepository.findByUsername(loginFormDTO.getUsername());
         if (user == null) {
             errors.rejectValue("username", "user.invalid", "The given username does not exist");
-            model.addAttribute("appName","Shipper's Scheduler");
+            model.addAttribute("appName","Drivers' Scheduler");
             model.addAttribute("company","Daily Shippers");
             model.addAttribute("title","Truck Company");
             return "login";
@@ -204,13 +204,13 @@ public class AuthenticationController {
 
         if(!user.isMatchingPassword(password)){
             errors.rejectValue("password", "password.invalid", "Invalid password");
-            model.addAttribute("appName","Shipper's Scheduler");
+            model.addAttribute("appName","Drivers' Scheduler");
             model.addAttribute("company","Daily Shippers");
             model.addAttribute("title","Truck Company");
             return "login";
         }
         setUserInSession(request.getSession(), user);
-        model.addAttribute("appName","Shipper's Scheduler");
+        model.addAttribute("appName","Drivers' Scheduler");
         model.addAttribute("company","Daily Shippers");
         model.addAttribute("title","Truck Company");
         model.addAttribute("name",user.getLastName());

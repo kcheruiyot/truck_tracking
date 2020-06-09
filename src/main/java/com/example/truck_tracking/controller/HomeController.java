@@ -13,7 +13,7 @@ public class HomeController {
 
     @GetMapping("/index")
     public String index(Model model){
-        model.addAttribute("appName","Shipper's Scheduler");
+        model.addAttribute("appName","Drivers' Scheduler");
         model.addAttribute("company","Daily Shippers");
         model.addAttribute("title","Truck Company");
         return "index";

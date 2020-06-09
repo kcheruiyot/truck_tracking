@@ -27,6 +27,7 @@ public class Shipment {
     @NotNull
     private String recipient;
     private final String date = LocalDate.now().toString();
+    private boolean swappable= false;
 
     public int getId() {
         return id;
@@ -85,5 +86,13 @@ public class Shipment {
         this.destination = destination;
         this.description = description;
         this.recipient = recipient;
+    }
+
+    public boolean isSwappable() {
+        return swappable;
+    }
+
+    public void setSwappable(boolean swappable) {
+        this.swappable = swappable;
     }
 }
